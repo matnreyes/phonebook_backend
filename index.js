@@ -75,6 +75,12 @@ app.post('/api/persons', (request, response) => {
             error: 'Contact is missing a field'
         })
     }
+
+    if (persons.find(person => person.name === body.name)) {
+        response.status(400).json({
+            error: 'Name must be unique'
+        })
+    }
     
     const newPerson = {
         id: generateId(),
