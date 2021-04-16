@@ -3,5 +3,5 @@ Content-Type: application/json
 
 {
     "name": "Mario Bros",
-    "number": "555-563-1233",
+    "number": "555-563-1233"
 }
