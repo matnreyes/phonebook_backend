@@ -30,8 +30,9 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/info', (request, response) => {
-    response.send(`Phonebook has info for ${persons.length} people`)
-    
+    const info = `<p>Phonebook has info for ${persons.length} people </p> <p>${Date()}</p>`
+
+    response.send(info)
 })
 
 
