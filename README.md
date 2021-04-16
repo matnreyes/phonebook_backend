@@ -10,3 +10,4 @@ morgan
 
 
 <br> 
+As of now, my backend can return a list of contacts saved onto the server, delete, add contacts, assign ID. There are also some HTTP request tests included.
