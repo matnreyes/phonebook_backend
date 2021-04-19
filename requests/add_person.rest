@@ -1,7 +1,7 @@
-POST http://localhost:3001/api/persons
+POST https://pacific-forest-25334.herokuapp.com/api/persons
 Content-Type: application/json
 
 {
     "name": "Liisa Marttinen",
-    "number": "040-243563"
+    "number": "040-243563",
 }
