@@ -11,3 +11,6 @@ morgan
 
 <br> 
 As of now, my backend can return a list of contacts saved onto the server, delete, add contacts, assign ID. There are also some HTTP request tests included.
+
+App is being hosted on:
+https://pacific-forest-25334.herokuapp.com
