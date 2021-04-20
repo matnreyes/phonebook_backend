@@ -20,7 +20,7 @@ if (process.argv.length === 3) {
     Person.find({})
     .then(persons=> {
         persons.forEach(person => {
-            console.log(persons)
+            console.log(person)
         })
         mongoose.connection.close()
         process.exit()
