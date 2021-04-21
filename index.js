@@ -1,6 +1,8 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const Person = require('./models/person')
 const app = express()
 
 morgan.token('content', (req, res) => JSON.stringify(req.body))
@@ -10,30 +12,16 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan(':method :url :status :req[content-length] :req[header] :total-time ms :content'))
 
-let persons = [
-    {
-        id: 1,
-        name: "Stella Adler",
-        number: "555-553-1234"
-    },
-    {
-        id: 2,
-        name: "Ada Lovelace",
-        number: "555-253-6534"
-    },
-    {
-        id: 3,
-        name: "Maria Hill",
-        number: "555-234-4321"
-    }
-]
-
+// Failsafe if frontend fails
 app.get('/', (request, response) => {
-    response.send('<h1>Hello World</h1>')
+    response.send('<h1>Something went wrong loading site</h1>')
 })
 
+// Load contacts from server
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person.find({}).then(persons => { 
+        response.json(persons)
+    })
 })
 
 app.get('/info', (request, response) => {
@@ -41,16 +29,11 @@ app.get('/info', (request, response) => {
     response.send(info)
 })
 
+// Load specific page for contact (JSON)
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
-    if (person) {
-        response.json(person)
-    } else {
-        response.status(404).json({
-            error: 'note does not exist with that id'
-        })
-    }
+    Person.findById(request.params.id).then(person => {
+        response.json(note)
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -59,20 +42,7 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end()
 })
 
-const generateId = () => {
-    let maxId = persons.length > 0 
-        ? Math.floor(Math.random() * 1000)
-        : 0
-    
-
-    while (persons.find(person => person.id === maxId))
-    {
-        maxId = Math.floor(Math.random() * 1000)
-    }
-
-    return maxId
-}
-
+// Upload a new contact to DB
 app.post('/api/persons', (request, response) => {
     const body = request.body
 
@@ -82,20 +52,14 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
-    if (persons.find(person => person.name === body.name)) {
-        response.status(400).json({
-            error: 'Name must be unique'
-        })
-    }
-    
-    const newPerson = {
-        id: generateId(),
+    const newPerson = new Person({
         name: body.name,
         number: body.number
-    }
+    })
 
-    persons = persons.concat(newPerson)
-    response.json(newPerson)
+    newPerson.save().then(savedPerson => {
+        response.json(savedPerson)
+    })
 })
 
 const PORT = process.env.PORT || 3001
