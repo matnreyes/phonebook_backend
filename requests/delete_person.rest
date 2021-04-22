@@ -1,2 +1,2 @@
-DELETE https://pacific-forest-25334.herokuapp.com/api/persons/3
+DELETE http://localhost:3001/api/persons/60805703ca625820c285ba86
 Content-Type: application/json
