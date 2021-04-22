@@ -32,7 +32,7 @@ app.get('/info', (request, response) => {
 // Load specific page for contact (JSON)
 app.get('/api/persons/:id', (request, response) => {
     Person.findById(request.params.id).then(person => {
-        response.json(note)
+        response.json(person)
     })
 })
 
