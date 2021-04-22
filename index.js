@@ -40,8 +40,12 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 app.get('/info', (request, response) => {
-    const info = `<p>Phonebook has info for ${persons.length} people</p><p>${Date()}</p>`
-    response.send(info)
+    Person.find({}).then(persons => { 
+        const people = persons.length
+        const info = `<p>Phonebook has info for ${people} people</p><p>${Date()}</p>`
+        response.send(info)
+    })
+
 })
 
 // Load specific page for contact (JSON)
